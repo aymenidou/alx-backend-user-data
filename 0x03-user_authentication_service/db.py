@@ -38,6 +38,6 @@ class DB:
             self._session.add(user)
             self._session.commit()
         except Exception:
-            self.__session.rollback()
+            self._session.rollback()
             user = None
         return user
