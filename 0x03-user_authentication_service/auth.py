@@ -17,14 +17,12 @@ class Auth:
     def register_user(self, email: str, password: str) -> User:
         """register user"""
         try:
-            user = self._db.find_user_by(email=email)
-            if (user):
-                raise ValueError('User {} already exists'.format(email))
+            self._db.find_user_by(email=email)
         except NoResultFound:
             return self._db.add_user(email, _hash_password(password))
+        raise ValueError('User {} already exists'.format(email))
 
 
 def _hash_password(password: str) -> bytes:
     """hash the password"""
-    hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-    return hashed
+    return bcrypt.hashpw(password.encode(), bcrypt.gensalt())
